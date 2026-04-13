@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LienSight — AI-Powered Lien Property Investment Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #090d1a;
+      --navy-2: #0e1325;
+      --navy-3: #141b30;
+      --gold: #c9a84c;
+      --gold-light: #d9bc7a;
+      --gold-dark: #a8863a;
+      --white: #f5f0e8;
+      --gray: #8a93a8;
+      --gray-light: #b0b8cc;
+      --border: rgba(201, 168, 76, 0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: rgba(9, 13, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .btn-contact {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-contact:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201, 168, 76, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 100%, rgba(14, 30, 80, 0.6) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* subtle grid */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201, 168, 76, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 168, 76, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      padding: 8px 20px;
+      margin-bottom: 44px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge::before {
+      content: '●';
+      font-size: 8px;
+      opacity: 0.7;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-title-italic {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-desc {
+      font-size: clamp(15px, 1.5vw, 18px);
+      line-height: 1.75;
+      color: var(--gray-light);
+      max-width: 580px;
+      margin: 36px auto 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      margin-top: 48px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 16px 36px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 16px 36px;
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(245, 240, 232, 0.35);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 60px;
+      margin-top: 80px;
+      position: relative;
+      z-index: 1;
+      padding-top: 40px;
+      border-top: 1px solid rgba(201, 168, 76, 0.12);
+    }
+
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--gray-light);
+      max-width: 600px;
+    }
+
+    /* ── PROBLEM ── */
+    #problem {
+      background: var(--navy-2);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .problem-left .section-subtitle {
+      max-width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .pain-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pain-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .pain-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      color: var(--gold);
+    }
+
+    .pain-text strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .pain-text p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    .problem-right {
+      position: relative;
+    }
+
+    .data-card {
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      padding: 32px;
+    }
+
+    .data-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .data-row:last-child { border-bottom: none; }
+    .data-row-label { font-size: 13px; color: var(--gray); }
+    .data-row-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .data-row-value.gold { color: var(--gold); }
+
+    .data-bar-wrap {
+      margin-top: 24px;
+    }
+    .data-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .data-bar-track {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      width: 100%;
+    }
+    .data-bar-fill {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    }
+
+    /* ── FEATURES ── */
+    #features {
+      background: var(--navy);
+    }
+
+    .features-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 64px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .feature-card {
+      background: var(--navy-2);
+      padding: 40px 36px;
+      border: 1px solid rgba(201, 168, 76, 0.06);
+      transition: border-color 0.25s, background 0.25s;
+      cursor: default;
+    }
+    .feature-card:hover {
+      border-color: rgba(201, 168, 76, 0.25);
+      background: var(--navy-3);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 24px;
+      color: var(--gold);
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--gray);
+    }
+
+    /* ── AI ENGINE ── */
+    #ai-engine {
+      background: var(--navy-2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #ai-engine::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .ai-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ai-step {
+      display: flex;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .ai-step:last-child { border-bottom: none; }
+
+    .ai-step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.6;
+      flex-shrink: 0;
+      padding-top: 3px;
+      width: 28px;
+    }
+
+    .ai-step-content strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .ai-step-content p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--gray);
+    }
+
+    .ai-visual {
+      position: relative;
+    }
+
+    .ai-terminal {
+      background: #070b15;
+      border: 1px solid var(--border);
+      padding: 0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      background: var(--navy-3);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .terminal-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .t-red { background: #ff5f57; }
+    .t-yellow { background: #febc2e; }
+    .t-green { background: #28c840; }
+
+    .terminal-title {
+      font-size: 11px;
+      color: var(--gray);
+      margin-left: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .terminal-body {
+      padding: 24px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .t-comment { color: #4a5a78; }
+    .t-key { color: var(--gold); }
+    .t-str { color: #7ec8a0; }
+    .t-num { color: #9bb0f0; }
+    .t-pulse {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--gold);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── PRICING ── */
+    #pricing {
+      background: var(--navy);
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .pricing-header .section-subtitle {
+      margin: 16px auto 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: var(--navy-2);
+      border: 1px solid rgba(201, 168, 76, 0.08);
+      padding: 44px 40px;
+      position: relative;
+      transition: border-color 0.25s;
+    }
+
+    .pricing-card.featured {
+      background: var(--navy-3);
+      border-color: rgba(201, 168, 76, 0.4);
+      transform: translateY(-8px);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 18px;
+    }
+
+    .plan-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .plan-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .plan-price sup {
+      font-size: 20px;
+      vertical-align: super;
+      font-weight: 400;
+    }
+    .plan-period {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 28px;
+    }
+
+    .plan-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 28px;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .plan-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--gray-light);
+    }
+
+    .plan-feature::before {
+      content: '✓';
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .plan-feature.disabled {
+      color: rgba(138, 147, 168, 0.35);
+    }
+    .plan-feature.disabled::before {
+      content: '–';
+      color: rgba(138, 147, 168, 0.3);
+    }
+
+    .btn-plan {
+      width: 100%;
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
+    }
+
+    .btn-plan-outline {
+      border: 1.5px solid rgba(201, 168, 76, 0.3);
+      color: var(--gold);
+      background: transparent;
+    }
+    .btn-plan-outline:hover {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, 0.05);
+    }
+
+    .btn-plan-solid {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+    }
+    .btn-plan-solid:hover {
+      background: var(--gold-light);
+    }
+
+    /* ── ROADMAP ── */
+    #roadmap {
+      background: var(--navy-2);
+    }
+
+    .roadmap-header {
+      margin-bottom: 64px;
+    }
+
+    .roadmap-timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.1));
+    }
+
+    .roadmap-item {
+      position: relative;
+      padding: 0 0 48px 40px;
+    }
+    .roadmap-item:last-child { padding-bottom: 0; }
+
+    .roadmap-dot {
+      position: absolute;
+      left: -40px;
+      top: 4px;
+      width: 14px; height: 14px;
+      border: 2px solid var(--gold);
+      background: var(--navy-2);
+      border-radius: 50%;
+    }
+
+    .roadmap-dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+    }
+
+    .roadmap-quarter {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .roadmap-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .roadmap-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--gray);
+      max-width: 520px;
+    }
+
+    .roadmap-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .roadmap-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      padding: 4px 12px;
+    }
+
+    .roadmap-tag.done {
+      background: rgba(201, 168, 76, 0.1);
+    }
+
+    /* ── CTA BANNER ── */
+    #cta-banner {
+      background: var(--navy-3);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      padding: 80px 48px;
+    }
+
+    #cta-banner .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+
+    #cta-banner .section-subtitle {
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 60px 48px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      max-width: 280px;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .footer-logo span { color: var(--gold); }
+
+    .footer-tagline {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    .footer-links-group h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .footer-links-group ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links-group a {
+      font-size: 14px;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links-group a:hover { color: var(--white); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-legal a {
+      font-size: 12px;
+      color: var(--gray);
+      text-decoration: none;
+    }
+    .footer-legal a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .problem-grid, .ai-grid { grid-template-columns: 1fr; gap: 48px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; }
+      .hero-stats { gap: 32px; flex-wrap: wrap; justify-content: center; }
+      footer { padding: 48px 24px 32px; }
+      #cta-banner { padding: 60px 24px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats { gap: 24px; }
+      .features-header { flex-direction: column; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a class="nav-logo" href="#hero">Lien<span>Sight</span></a>
+    <ul class="nav-links">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#ai-engine">AI Engine</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+    <a href="#cta-banner" class="btn-contact">Contact Us</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-badge">Proptech · Legal Data · AI Investment Intelligence</div>
+    <h1 class="hero-title">
+      Find Liens. Unlock Properties.<br>
+      <em class="hero-title-italic">Invest Smarter with AI.</em>
+    </h1>
+    <p class="hero-desc">
+      LienSight aggregates lien-encumbered real estate data from county recorders, tax assessors, and court filings into one powerful platform — with an AI engine that learns your strategy and surfaces deals before anyone else finds them.
+    </p>
+    <div class="hero-ctas">
+      <a href="#cta-banner" class="btn-primary">Request Early Access</a>
+      <a href="#features" class="btn-secondary">Explore the Platform</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">3,100+</div>
+        <div class="stat-label">Counties Covered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">$2.4T</div>
+        <div class="stat-label">Lien Market Size</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">48hrs</div>
+        <div class="stat-label">Avg. Data Freshness</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">94%</div>
+        <div class="stat-label">Deal Accuracy Score</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROBLEM ── -->
+  <section id="problem">
+    <div class="section-inner">
+      <div class="problem-grid">
+        <div class="problem-left">
+          <div class="section-tag">The Problem</div>
+          <h2 class="section-title">Lien investing is<br><em>broken by fragmentation.</em></h2>
+          <p class="section-subtitle">
+            Real estate investors waste hundreds of hours manually scraping data from thousands of disconnected county portals, tax assessor websites, and court systems — only to miss the deals that matter most.
+          </p>
+          <ul class="pain-list">
+            <li class="pain-item">
+              <div class="pain-icon">⏱</div>
+              <div class="pain-text">
+                <strong>Weeks of Manual Research</strong>
+                <p>Investors spend 20+ hours per deal sourcing data across siloed county systems with no standardization.</p>
+              </div>
+            </li>
+            <li class="pain-item">
+              <div class="pain-icon">🔍</div>
+              <div class="pain-text">
+                <strong>Missed Opportunities</strong>
+                <p>High-yield lien properties are claimed before most investors even discover they exist — speed is everything.</p>
+              </div>
+            </li>
+            <li class="pain-item">
+              <div class="pain-icon">📊</div>
+              <div class="pain-text">
+                <strong>No Intelligent Filtering</strong>
+                <p>Generic real estate tools don't understand lien strategy. Sorting through noise wastes capital and time.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="problem-right">
+          <div class="data-card">
+            <div class="data-card-title">Market Opportunity</div>
+            <div class="data-row">
+              <span class="data-row-label">Annual Tax Liens Issued</span>
+              <span class="data-row-value gold">$14B+</span>
+            </div>
+            <div class="data-row">
+              <span class="data-row-label">Active Lien Investors (US)</span>
+              <span class="data-row-value">120K+</span>
+            </div>
+            <div class="data-row">
+              <span class="data-row-label">Avg. ROI on Tax Liens</span>
+              <span class="data-row-value gold">18–36%</span>
+            </div>
+            <div class="data-row">
+              <span class="data-row-label">Data Sources Aggregated</span>
+              <span class="data-row-value">3,100</span>
+            </div>
+            <div class="data-bar-wrap">
+              <div class="data-bar-label">
+                <span>Market Addressability</span>
+                <span>78%</span>
+              </div>
+              <div class="data-bar-track">
+                <div class="data-bar-fill" style="width: 78%"></div>
+              </div>
+            </div>
+            <div class="data-bar-wrap" style="margin-top: 16px;">
+              <div class="data-bar-label">
+                <span>Data Coverage vs. Competitors</span>
+                <span>94%</span>
+              </div>
+              <div class="data-bar-track">
+                <div class="data-bar-fill" style="width: 94%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section id="features">
+    <div class="section-inner">
+      <div class="features-header">
+        <div>
+          <div class="section-tag">Platform Features</div>
+          <h2 class="section-title">Everything you need to<br><em>dominate lien markets.</em></h2>
+        </div>
+        <p class="section-subtitle">
+          One platform to find, analyze, and track lien-encumbered properties — powered by live data and machine intelligence.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🗄</div>
+          <div class="feature-title">Unified Data Aggregation</div>
+          <p class="feature-desc">Pulls from 3,100+ county recorders, tax assessors, and court filing systems into a single normalized database updated every 48 hours.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">AI Deal Surfacing</div>
+          <p class="feature-desc">Our model learns your investment criteria — property type, geography, lien amount, equity position — and surfaces deals ranked by match score before the competition finds them.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <div class="feature-title">Interactive Property Maps</div>
+          <p class="feature-desc">Visualize lien concentration, redemption rates, and property values county by county with heat maps and geospatial filters.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Real-Time Alerts</div>
+          <p class="feature-desc">Instant push and email notifications when new liens are recorded or existing liens hit your custom thresholds — never miss a window.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">Due Diligence Reports</div>
+          <p class="feature-desc">Generate one-click PDF reports with lien history, property valuation, owner information, and redemption timeline for any property in seconds.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <div class="feature-title">Portfolio & CRM Integration</div>
+          <p class="feature-desc">Track your active liens, set follow-up reminders, export to Excel, and integrate with Salesforce and HubSpot via API or native connectors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── AI ENGINE ── -->
+  <section id="ai-engine">
+    <div class="section-inner">
+      <div class="ai-grid">
+        <div>
+          <div class="section-tag">The AI Engine</div>
+          <h2 class="section-title">Intelligence that<br><em>learns your strategy.</em></h2>
+          <p class="section-subtitle" style="margin-bottom: 40px;">
+            LienSight's proprietary model is trained on millions of lien transactions and property records. It doesn't just filter — it understands deal quality the way an experienced investor does.
+          </p>
+          <div class="ai-steps">
+            <div class="ai-step">
+              <div class="ai-step-num">01</div>
+              <div class="ai-step-content">
+                <strong>Ingest & Normalize</strong>
+                <p>Raw county data arrives in dozens of formats. We parse, normalize, and deduplicate every record against our master property graph.</p>
+              </div>
+            </div>
+            <div class="ai-step">
+              <div class="ai-step-num">02</div>
+              <div class="ai-step-content">
+                <strong>Score & Rank</strong>
+                <p>Each property-lien pair is scored on 40+ signals including equity cushion, redemption probability, neighborhood trajectory, and legal risk.</p>
+              </div>
+            </div>
+            <div class="ai-step">
+              <div class="ai-step-num">03</div>
+              <div class="ai-step-content">
+                <strong>Personalize & Surface</strong>
+                <p>Your strategy profile shapes which deals rise to the top. The model improves with every action you take — clicks, saves, and passes all teach it your preferences.</p>
+              </div>
+            </div>
+            <div class="ai-step">
+              <div class="ai-step-num">04</div>
+              <div class="ai-step-content">
+                <strong>Alert & Act</strong>
+                <p>High-priority matches trigger instant notifications so you can act within the narrow windows that separate winners from late arrivals.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ai-visual">
+          <div class="ai-terminal">
+            <div class="terminal-bar">
+              <div class="terminal-dot t-red"></div>
+              <div class="terminal-dot t-yellow"></div>
+              <div class="terminal-dot t-green"></div>
+              <span class="terminal-title">liensight — deal_engine.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="t-comment"># LienSight AI Engine — Deal Score Output</span><br>
+              <br>
+              <span class="t-key">property</span> = {<br>
+              &nbsp;&nbsp;<span class="t-str">"id"</span>: <span class="t-str">"TX-HARRIS-2024-08821"</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"address"</span>: <span class="t-str">"4412 Oakhurst Blvd"</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"lien_amount"</span>: <span class="t-num">$8,240</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"est_equity"</span>: <span class="t-num">$192,000</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"redemption_prob"</span>: <span class="t-num">0.34</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"days_delinquent"</span>: <span class="t-num">428</span>,<br>
+              &nbsp;&nbsp;<span class="t-str">"legal_risk"</span>: <span class="t-str">"LOW"</span>,<br>
+              }<br>
+              <br>
+              <span class="t-key">deal_score</span> = engine.score(property)<br>
+              <span class="t-comment"># → Analyzing 40 signals...</span><br>
+              <br>
+              <span class="t-key">print</span>(deal_score)<br>
+              <span class="t-comment">## OUTPUT</span><br>
+              <span class="t-str">"score"</span>: <span class="t-num">94.2</span> / 100,<br>
+              <span class="t-str">"rank"</span>: <span class="t-str">"TOP MATCH ★★★★★"</span>,<br>
+              <span class="t-str">"alert_sent"</span>: <span class="t-num">True</span><span class="t-pulse"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRICING ── -->
+  <section id="pricing">
+    <div class="section-inner">
+      <div class="pricing-header">
+        <div class="section-tag">Pricing</div>
+        <h2 class="section-title">Simple, transparent<br><em>pricing for every investor.</em></h2>
+        <p class="section-subtitle">
+          Start free. Scale as you grow. No hidden fees, no per-county surcharges, no surprises.
+        </p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <div class="plan-name">Starter</div>
+          <div class="plan-price"><sup>$</sup>0</div>
+          <div class="plan-period">Free forever</div>
+          <div class="plan-divider"></div>
+          <ul class="plan-features">
+            <li class="plan-feature">5 property searches / month</li>
+            <li class="plan-feature">10-county access</li>
+            <li class="plan-feature">Basic lien data (last 6 mo.)</li>
+            <li class="plan-feature">PDF reports (3 / month)</li>
+            <li class="plan-feature disabled">AI deal scoring</li>
+            <li class="plan-feature disabled">Real-time alerts</li>
+            <li class="plan-feature disabled">API access</li>
+          </ul>
+          <a href="#cta-banner" class="btn-plan btn-plan-outline">Get Started Free</a>
+        </div>
+        <!-- Pro (Featured) -->
+        <div class="pricing-card featured">
+          <div class="featured-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price"><sup>$</sup>197</div>
+          <div class="plan-period">per month, billed monthly</div>
+          <div class="plan-divider"></div>
+          <ul class="plan-features">
+            <li class="plan-feature">Unlimited searches</li>
+            <li class="plan-feature">All 3,100+ counties</li>
+            <li class="plan-feature">Full lien history</li>
+            <li class="plan-feature">Unlimited PDF reports</li>
+            <li class="plan-feature">AI deal scoring & ranking</li>
+            <li class="plan-feature">Real-time alerts (email + push)</li>
+            <li class="plan-feature disabled">API access</li>
+          </ul>
+          <a href="#cta-banner" class="btn-plan btn-plan-solid">Request Early Access</a>
+        </div>
+        <!-- Enterprise -->
+        <div class="pricing-card">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-price" style="font-size: 36px;">Custom</div>
+          <div class="plan-period">Volume & team pricing</div>
+          <div class="plan-divider"></div>
+          <ul class="plan-features">
+            <li class="plan-feature">Everything in Pro</li>
+            <li class="plan-feature">Full REST API access</li>
+            <li class="plan-feature">White-label options</li>
+            <li class="plan-feature">Dedicated account manager</li>
+            <li class="plan-feature">Custom data ingestion</li>
+            <li class="plan-feature">SLA & compliance support</li>
+            <li class="plan-feature">Team seats & permissions</li>
+          </ul>
+          <a href="#cta-banner" class="btn-plan btn-plan-outline">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROADMAP ── -->
+  <section id="roadmap">
+    <div class="section-inner">
+      <div class="roadmap-header">
+        <div class="section-tag">Product Roadmap</div>
+        <h2 class="section-title">Built for where<br><em>the market is going.</em></h2>
+        <p class="section-subtitle">
+          We're shipping fast. Here's what's live, what's in progress, and what's coming next.
+        </p>
+      </div>
+      <div class="roadmap-timeline">
+        <div class="roadmap-item">
+          <div class="roadmap-dot active"></div>
+          <div class="roadmap-quarter">Q1 2026 — Now Live</div>
+          <div class="roadmap-title">Core Platform Launch</div>
+          <p class="roadmap-desc">Unified lien database covering all 50 states, AI deal scoring engine, interactive property maps, and PDF due diligence reports.</p>
+          <div class="roadmap-tags">
+            <span class="roadmap-tag done">Data Aggregation</span>
+            <span class="roadmap-tag done">AI Scoring</span>
+            <span class="roadmap-tag done">Maps</span>
+            <span class="roadmap-tag done">Reports</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot active"></div>
+          <div class="roadmap-quarter">Q2 2026 — In Progress</div>
+          <div class="roadmap-title">Real-Time Alerts & Portfolio CRM</div>
+          <p class="roadmap-desc">Push and email notifications for new liens matching your criteria. Built-in deal tracking, status management, and reminder workflows.</p>
+          <div class="roadmap-tags">
+            <span class="roadmap-tag done">Alerts Engine</span>
+            <span class="roadmap-tag">Portfolio Tracker</span>
+            <span class="roadmap-tag">CRM Sync</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-quarter">Q3 2026 — Planned</div>
+          <div class="roadmap-title">REST API & White-Label SDK</div>
+          <p class="roadmap-desc">Full developer API for enterprise clients, webhooks for real-time data delivery, and a white-label SDK for proptech integrators and fund managers.</p>
+          <div class="roadmap-tags">
+            <span class="roadmap-tag">REST API</span>
+            <span class="roadmap-tag">Webhooks</span>
+            <span class="roadmap-tag">White-Label</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-quarter">Q4 2026 — Vision</div>
+          <div class="roadmap-title">Predictive Forecasting & Auction Intelligence</div>
+          <p class="roadmap-desc">Predictive models for redemption timelines, auction outcome forecasting, and direct integration with county auction platforms for one-click bidding.</p>
+          <div class="roadmap-tags">
+            <span class="roadmap-tag">Forecasting</span>
+            <span class="roadmap-tag">Auction AI</span>
+            <span class="roadmap-tag">Bidding API</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ── -->
+  <section id="cta-banner">
+    <div class="section-inner">
+      <div class="section-tag" style="text-align:center;">Get Early Access</div>
+      <h2 class="section-title">
+        The lien market moves fast.<br>
+        <em>Move faster with AI.</em>
+      </h2>
+      <p class="section-subtitle">
+        Join hundreds of investors already on the waitlist. Founding members receive 50% off Pro for life.
+      </p>
+      <div class="cta-buttons">
+        <a href="mailto:hello@liensight.com" class="btn-primary">Request Early Access</a>
+        <a href="mailto:sales@liensight.com" class="btn-secondary">Talk to Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Lien<span>Sight</span></span>
+        <p class="footer-tagline">AI-powered lien property investment intelligence. Find deals. Unlock properties. Invest smarter.</p>
+      </div>
+      <div class="footer-links-group">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#problem">The Problem</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#ai-engine">AI Engine</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a href="#cta-banner">Contact</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Data Usage</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 LienSight, Inc. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
